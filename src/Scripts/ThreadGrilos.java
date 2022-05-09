@@ -13,6 +13,8 @@ public class ThreadGrilos extends Thread{
 	int time;
 	Random random = new Random(); 
 	
+	int contador = 0, escolhendoTime = 1; 
+	
 	static Semaphore semafaro;
 	
 	public ThreadGrilos(int grilos[],float tempo,float tamanhoPulo,float LinhaChegada, int i, int time)
@@ -26,7 +28,7 @@ public class ThreadGrilos extends Thread{
 		this.time = time;
 		
 		
-		semafaro = new Semaphore(1);
+		semafaro = new Semaphore(4);
 	}
 	
 
@@ -49,7 +51,7 @@ public class ThreadGrilos extends Thread{
 			
 			if (position > LinhaChegada)
 			{
-				System.out.println("Grilo_0" + grilos[i] + "    Metros que ele percorreu: " + position +  "   Pulo: " + pulo);
+				System.out.println("Grilo_0" + grilos[i] + "  Time: "+ time +  "    Metros que ele percorreu: " + position +  "   Pulo: " + pulo);
 				
 				return;
 			}
@@ -65,8 +67,25 @@ public class ThreadGrilos extends Thread{
 		try {
 			
 			semafaro.acquire();
+			if(time == escolhendoTime)
+			{
+				semafaro.release();
+				
+			}
+			else
+			{
+				contador += 1;
+				System.out.println("time: " + time + "  Grilo: " + grilos[i]);
+			}
 			
-		} catch (InterruptedException e) {
+			if(contador == 4 )
+			{
+				escolhendoTime = 2;
+				contador = 0;
+			}
+			//System.out.println("Time:" + time);
+			
+		} catch (Exception e) {
 			
 			
 		}

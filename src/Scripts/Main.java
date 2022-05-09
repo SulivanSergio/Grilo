@@ -37,9 +37,9 @@ public class Main {
 		
 		for(int i = 0; i< T;i++)
 		{
-			thread[i] = new ThreadGrilos(grilos,random.nextInt(5),random.nextInt(10),30f,i,time);
+			thread[i] = new ThreadGrilos(grilos,random.nextInt(5),random.nextInt(10),60f,i,time);
 			thread[i].start();
-			if(i == 4)
+			if(i == 3)
 			{
 				time += 1;
 			}
