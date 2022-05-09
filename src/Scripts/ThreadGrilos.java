@@ -1,5 +1,6 @@
 package Scripts;
 import java.util.Random;
+import java.util.concurrent.Semaphore;
 
 
 public class ThreadGrilos extends Thread{
@@ -12,6 +13,8 @@ public class ThreadGrilos extends Thread{
 	int time;
 	Random random = new Random(); 
 	
+	static Semaphore semafaro;
+	
 	public ThreadGrilos(int grilos[],float tempo,float tamanhoPulo,float LinhaChegada, int i, int time)
 	{
 		
@@ -21,6 +24,9 @@ public class ThreadGrilos extends Thread{
 		this.LinhaChegada = LinhaChegada;
 		this.i = i;
 		this.time = time;
+		
+		
+		semafaro = new Semaphore(1);
 	}
 	
 
@@ -43,8 +49,8 @@ public class ThreadGrilos extends Thread{
 			
 			if (position > LinhaChegada)
 			{
-				System.out.println("Grilo_0" + grilos[i] + "      Metros que ele percorreu: " + position);
-				System.out.println("Grilo_0" + grilos[i] + "  Ganhou    Pulos: " + pulo + "Time: " + time);
+				System.out.println("Grilo_0" + grilos[i] + "    Metros que ele percorreu: " + position +  "   Pulo: " + pulo);
+				
 				return;
 			}
 			
@@ -56,6 +62,15 @@ public class ThreadGrilos extends Thread{
 	private void Update(float deltaTime)
 	{
 		
+		try {
+			
+			semafaro.acquire();
+			
+		} catch (InterruptedException e) {
+			
+			
+		}
+		
 		if(seg > tempo)
 		{
 			position = position + tamanhoPulo;
@@ -65,6 +80,9 @@ public class ThreadGrilos extends Thread{
 		}
 		seg += tamanhoPulo * deltaTime;
 	
+		
+		semafaro.release();
+		
 	}
 	
 	public void Render()

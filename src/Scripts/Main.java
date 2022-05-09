@@ -39,7 +39,7 @@ public class Main {
 		{
 			thread[i] = new ThreadGrilos(grilos,random.nextInt(5),random.nextInt(10),30f,i,time);
 			thread[i].start();
-			if(i == T / (T/4))
+			if(i == 4)
 			{
 				time += 1;
 			}
